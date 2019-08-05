@@ -13,11 +13,10 @@
 #
 # LICENCIA:
 # 
-# El uso de este codigo ha de realizarse bajo las premisas
-# de la licencia origen del material:
+# El uso de este codigo ha de realizarse bajo las premisas de la licencia origen del material:
 #    licencias OGL y
 #    Swords & Wizardry Compatibility-Statement License (CSL for the Complete Rules)
-# 
+#    leer la referencia a la licencia en la carpeta origen del repositorio: https://github.com/oscoder87/swords_wizardry
 from random import randint
 
 def dado(nDados, tamDado, extra=0):
