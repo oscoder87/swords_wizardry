@@ -1,4 +1,4 @@
-#Proximos pasos:
+# Proximos pasos:
  - Completar la generacion de armas y armaduras.
  
  - Modulo con generación "repetida" de objetos y no solo 1 por bloque de monedas, ira indicado como REGLAS DE LA CASA
