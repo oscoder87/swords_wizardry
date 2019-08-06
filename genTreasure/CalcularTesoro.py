@@ -1,31 +1,52 @@
+#coding=utf-8
+
 # CALCULO DE TESORO SEGUN EL MANUAL DE SWORDS AND WIZARDRY
 # Codificado por @oscoder87
 # 
 # RECONOCIMIENTOS
 # redactado en castellano a partir de la traducción de
-# Javier "cabohicks" García del manual de 
-# Swords & Wizardry de Matthew J. Finch
+# Javier "cabohicks" García del manual de Swords & Wizardry de Matthew J. Finch
 #
 # NOTAS:
+#
 # Denominaciones resumidas
 #    La duracion doble y triple de los pergaminos de
 #      proteccion se ha indicado con el adjetivo "mayor
 #      y superior"
 #    "experiencia enana (habilidades especiales)"
 #    "experiencia elfica (habilidades especiales)"
+# 
+# Generacion aleatoria de las monedas: NORMA DE LA CASA
 #
 # LICENCIA:
-# 
-# El uso de este codigo ha de realizarse bajo las premisas
-# de la licencia origen del material:
+# consultar el resto de reconocimientos y licencias en https://github.com/oscoder87/swords_wizardry
+
+# El uso de los contenidos de este script ha de realizarse bajo las premisas
+# de las licencias origen del material:
 #    licencias OGL y
 #    Swords & Wizardry Compatibility-Statement License (CSL for the Complete Rules)
 # 
+# Licencia GNU 3.0
+
 from random import randint
+from math import floor
 
 def dado(nDados, tamDado, extra=0):
     return nDados * randint(1,tamDado) + extra
 
+def monedasRandom(m):
+    o = m
+    peso = dado(1,50)
+    c1 = int(peso/100 * o)
+    o = m - c1
+    p = c1 * 10
+    
+    peso = dado(1,10)
+    c2 = int(peso/100 * o)
+    o -= c2
+    c = c2 * 100
+    return str(c) + " monedas de cobre\n" + str(p) + " monedas de plata\n" + str(o) + " monedas de oro."
+    
 def joyeriaMenor():
     j = dado(1,4)
     if j == 1:
@@ -480,9 +501,16 @@ print("|                                                          |")
 print("| CALCULO DE TESORO SEGUN EL MANUAL DE SWORDS AND WIZARDRY |")
 print("| Por el metodo de acumulacion de probabilidad             |")
 print("|----------------------------------------------------------|")
-# XP = int( input("Introducir valor de XP de la aventura: ") )
+valid = False 
+while (not valid):
+    try:
+        XP = int( input("Introducir valor de XP de la aventura: ") )
+        valid = True
+    except (TypeError,ValueError):
+        print("introduce un valor entero por favor")
+    
 # XP = randint(1500,3000)
-XP = 5000
+#XP = 5000
 # se multiplica por 1d3+1
 oro = XP * dado(1,3,1)
 print("Valor en oro de tesoro: %d" % (oro))
@@ -510,7 +538,7 @@ tesoro = "Tesoro compuesto de:\n"
 if cambio5000 or cambio1000 or cambio100:
     if cambio5000:
         d -= 5000
-        if dado(1,20) >= 10:
+        if dado(1,20) == 20:
             tesoro += oMagMayor() + "\n"
             print("oMagMayor")
         else:
@@ -518,7 +546,7 @@ if cambio5000 or cambio1000 or cambio100:
             print("joyaMayor")
     if cambio1000:
         d -= 1000
-        if dado(1,20) >= 10:
+        if dado(1,20) == 20:
             tesoro += oMagMedio() + "\n"
             print("oMagMedio")
         else:
@@ -526,7 +554,7 @@ if cambio5000 or cambio1000 or cambio100:
             print("joyaMedia")
     if cambio100:
         d -= 100
-        if dado(1,20) >= 10:
+        if dado(1,20) == 20:
             tesoro += oMagMenor() + "\n"
             print("oMagMenor")
         else:
@@ -539,6 +567,9 @@ if descontable: print("descontable")
 else: print("no descontable")
 if descontable :
     oro = d
-
-tesoro += "Y monedas por valor de " + str(oro) + "mo."
+print(oro)
+# tesoro += "Y monedas por valor de " + str(oro) + "mo."
+tesoro += "Monedas: " + monedasRandom(oro)
 print(tesoro)
+print("\n presiona intro para terminar")
+z = input()
