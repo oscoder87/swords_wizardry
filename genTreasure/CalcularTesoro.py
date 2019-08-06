@@ -356,7 +356,7 @@ def armamento():
             e = "Espada larga "
         if ar >= 14:
             intel = dado(1,4)
-            if i == 1:
+            if intel == 1:
                 return e + espadaMagicaUnica()
             
             
