@@ -430,7 +430,7 @@ def armamento():
         if d2 == 1:
             return "Escudo maldito " + maldicion()
         else:
-            return armaduraMagica() + "maldita " + maldicion()
+            return armaduraMagica() + " maldita " + maldicion()
     elif d == 2:
         return proyectiles() + " +1" 
     elif d == 3:
