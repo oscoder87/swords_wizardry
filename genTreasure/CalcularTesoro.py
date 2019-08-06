@@ -7,16 +7,20 @@
 # Swords & Wizardry de Matthew J. Finch
 #
 # NOTAS:
-# La duracion doble y triple de los pergaminos de
-# proteccion se ha indicado con el adjetivo "mayor
-# y superior"
+# Denominaciones resumidas
+#    La duracion doble y triple de los pergaminos de
+#      proteccion se ha indicado con el adjetivo "mayor
+#      y superior"
+#    "experiencia enana (habilidades especiales)"
+#    "experiencia elfica (habilidades especiales)"
 #
 # LICENCIA:
 # 
-# El uso de este codigo ha de realizarse bajo las premisas de la licencia origen del material:
+# El uso de este codigo ha de realizarse bajo las premisas
+# de la licencia origen del material:
 #    licencias OGL y
 #    Swords & Wizardry Compatibility-Statement License (CSL for the Complete Rules)
-#    leer la referencia a la licencia en la carpeta origen del repositorio: https://github.com/oscoder87/swords_wizardry
+# 
 from random import randint
 
 def dado(nDados, tamDado, extra=0):
@@ -260,9 +264,210 @@ def pergamino():
     return "Pergamino/s: " + generarPergamino( dado(1,18) )
 
 def armamento():
-    return "arma\n"
+    def maldicion():
+        mal = dado(1,8)
+        if mal <= 2:
+            return "-1"
+        elif mal in [3,4]:
+            return "-2"
+        elif mal == 5:
+            return "-3"
+        elif mal == 6:
+            return "atraccion de proyectiles +1"
+        elif mal == 7:
+            return "hace huir del combate"
+        elif mal == 8:
+            return "hace lanzarse al combate"
+        else: return "otra maldicion."
+        
+    def armaCC():
+        def espadaMagicaUnica():
+            mag = dado(1,20)
+            if mag == 1:
+                return "flamigera (+1d6 daño, luz 30 pies)"
+            elif mag == 2:
+                return "danzarina (pelea levitando sola 3 asaltos contra el mismo oponente con +1,+2 y +3 se reinicia al indicarle otro oponente)
+            elif mag == 3:
+                return "detecta trampas"
+            elif mag == 4:
+                return "ver invisibles"
+            elif mag == 5:
+                return "detecta magia"
+            elif mag == 6:
+                return "clariaudiencia"
+            elif mag == 7:
+                return "volar"
+            elif mag == 8:
+                return "levitar"
+            elif mag == 9:
+                return "1 conjuro de sanacion (1d6) al día"
+            elif mag == 10:
+                return "experiencia enana (habilidades especiales)"
+            elif mag == 11:
+                return "experiencia elfica (habiliades especiales"
+            elif mag == 12:
+                return "lanzar confusión 1/dia"
+            elif mag == 13:
+                return "evita proyectiles 25% (previo a la tirada de impacto"
+            elif mag == 14:
+                return "alerta durante el sueño"
+            elif mag == 15:
+                return "detecta 1 tipo de monstruo"
+            elif mag == 16:
+                return "detectar bien y mal 20 pies"
+            elif mag == 17:
+                intel = dado(3,6)
+                return "INT " + str(intel) + " comunicación con el portador, ilusión de cambio facial y altura"
+            elif mag == 18:
+                intel = dado(3,6)
+                return "INT " + str(intel) + " comunicación en radio de 10 pies, detección de obj malditos al 50%"
+            elif mag == 19:
+                intel = dado(3,6)
+                return "INT " + str(intel) + " comunicación con el portador y hablar, atravesar roca (20 pies) 2/dia"
+            elif mag == 20:
+                intel = dado(3,6)
+                return "INT " + str(intel) + " comunicación en radio de 10 pies, inmunidad al drenaje de nivel"
+        #fin espadamagicaUnica
+            
+        ar = dado(1,20)
+        if ar <= 2:
+            return "Hacha de batalla"
+        elif ar == 3:
+            return "Hacha de mano"
+        elif ar <= 5:
+            return "Daga"
+        elif ar == 6:
+            return "Martillo de guerra"
+        elif ar == 7:
+            return "Lanza de caballería"
+        elif ar <= 10:
+            return "Maza pesada"
+        elif ar == 11:
+            return "Maza ligera"
+        elif ar == 12:
+            return "Lanza"
+        elif ar == 13:
+            return "Bastón"
+        elif ar == 14:
+            e = "Espada corta "
+        elif ar == 15:
+            e = "Espada a 2 manos "
+        elif ar <= 20:
+            e = "Espada larga "
+        if ar >= 14:
+            intel = dado(1,4)
+            if i == 1:
+                return e + espadaMagicaUnica()
+            
+            
+        
+    
+    def armaduraMagica():
+        a = dado(1,4)
+        ar =["--","Cota de malla", "Armadura de cuero", "Armadura de placas", "Cota de anillos"]
+        return ar[a]
+    
+    def proyectiles():
+        p = dado(1,20)
+        if p<=8:
+            return str(dado(2,6)) + " flechas"
+        elif p<=10:
+            return str(dado(1,10)) + " piedras para honda"
+        elif p== 1:
+            return "jabalina"
+        elif p<= 15:
+            return str(dado(2,4)) + " dardos"
+        elif p<=20:
+             return str(dado(2,6)) + " virotes para ballesta"
+        
+    def habilidadesCC():
+        h = dado(1,8)
+        if h <= 5:
+            return "+1 al daño"
+        elif h == 6:
+            return "luz 10 ft."
+        elif h == 7:
+            return "luz 30 ft."
+        elif h == 8:
+            return "+4 al daño contra un tipo de enemigo"
+            
+    def armaExcepcional():
+        ae = dado(1,12)
+        aes = ["--",
+               "Arma contundente +1, destruye muertos vivientes",
+               "Arma arrojadiza +1, que vuelve a la mano",
+               "Arma +1, ataque extra 1/dia",
+               "Arma +1, +2 contra tipo de enemigo",
+               "Arma +1, +4 contra tipo de enemigo",
+               "Arma +2, +3 contra tipo de enemigo",
+               "Arma +4",
+               "Arma +5",
+               "Arma Flamígera +" +  str(dado(1,4,-1)),
+               "Arma Helada +" +  str(dado(1,4,-1)),
+               "Arma danzarina" ,
+               "Arma inteligente +" + str(dado(1,3)) + " con conjuro 1/dia"
+               ]
+        return aes[ae]
+    
+    def armaduraExcepcional():
+        aE = dado(1,8)
+        aEs = ["--",
+            armaduraMagica() + " +4",
+            "Escudo +4",
+            armaduraMagica() + " +5",
+            "Escudo +5",
+            "Armadura de Desvío de Flechas",
+            "Armadura Demoniaca",
+            "Armadura Etérea",
+            "Armadura Ardiente"
+        ]
+        return aEs[ae]
+        
+    #fin etc y armaduraExcepcional
+    d = dado(1,18)
+    if d == 1:
+        d2 = dado(1,2)
+        if d2 == 1:
+            return "Escudo maldito " + maldicion()
+        else:
+            return armaduraMagica() + "maldita " + maldicion()
+    elif d == 2:
+        return proyectiles() + " +1" 
+    elif d == 3:
+        return "Escudo +1"
+    elif d == 4:
+        return armaCC() + " +1"
+    elif d == 5:
+        return armaduraMagica() + " +1"
+    elif d == 6:
+        return armaCC() + " maldita " + maldicion()
+    elif d == 7:
+        return proyectiles() + " +2"
+    elif d == 8:
+        return "Escudo +2"
+    elif d in [9,11]:
+        return armaCC() + " +2"
+    elif d == 10:
+        return armaduraMagica() + " +2"
+    elif d == 12:
+        return armaCC() + " +1 con " + habilidadesCC()
+    elif d == 13:
+        return proyectiles() + " +3"
+    elif d == 14:
+        return armaCC() + " +3"
+    elif d == 15:
+        return "Escudo +3"
+    elif d == 16:
+        return armaduraMagica() + " +3"
+    elif d == 17:
+        return armaExcepcional()
+    elif d == 18:
+        return armaduraExcepcional()
+    else:
+        return "otro arma o armadura"
     
 def oMagRemarcable():
+    ## tipo en 1d60
     return "objetoMagicoRemarcable"
 
 
