@@ -123,7 +123,7 @@ def oMagMayor():
     elif j == 4:
         v = dado(1,20,40)
         for i in range(v): 
-            r += "\n" + oMagRermarcable()
+            r += "\n" + oMagRemarcable()
     return r
 
 
@@ -286,7 +286,7 @@ def armamento():
             if mag == 1:
                 return "flamigera (+1d6 daño, luz 30 pies)"
             elif mag == 2:
-                return "danzarina (pelea levitando sola 3 asaltos contra el mismo oponente con +1,+2 y +3 se reinicia al indicarle otro oponente)
+                return "danzarina (pelea levitando sola 3 asaltos contra el mismo oponente con +1,+2 y +3 se reinicia al indicarle otro oponente)"
             elif mag == 3:
                 return "detecta trampas"
             elif mag == 4:
@@ -357,7 +357,8 @@ def armamento():
         if ar >= 14:
             intel = dado(1,4)
             if intel == 1:
-                return e + espadaMagicaUnica()
+                e += espadaMagicaUnica()
+            return e
             
             
         
@@ -421,7 +422,7 @@ def armamento():
             "Armadura Etérea",
             "Armadura Ardiente"
         ]
-        return aEs[ae]
+        return aEs[aE]
         
     #fin etc y armaduraExcepcional
     d = dado(1,18)
