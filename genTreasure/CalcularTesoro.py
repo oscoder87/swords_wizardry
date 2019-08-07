@@ -45,7 +45,7 @@ def monedasRandom(m):
     c2 = int(peso/100 * o)
     o -= c2
     c = c2 * 100
-    return str(c) + " monedas de cobre\n" + str(p) + " monedas de plata\n" + str(o) + " monedas de oro."
+    print( str(c) + " monedas de cobre\n" + str(p) + " monedas de plata\n" + str(o) + " monedas de oro.")
     
 def joyeriaMenor():
     j = dado(1,4)
@@ -504,22 +504,22 @@ print("|----------------------------------------------------------|")
 valid = False 
 while (not valid):
     try:
-        XP = int( input("Introducir valor de XP de la aventura: ") )
+        #XP = int( input("Introducir valor de XP de la aventura: ") )
         valid = True
     except (TypeError,ValueError):
         print("introduce un valor entero por favor")
     
-# XP = randint(1500,3000)
-#XP = 5000
+
 # se multiplica por 1d3+1
-oro = XP * dado(1,3,1)
+#oro = XP * dado(1,3,1)
+oro = 2090
 print("Valor en oro de tesoro: %d" % (oro))
 # obtener el numero de multiplos de 100, de 1000 y de 5000
 n100 = oro // 100
 n1000 = oro // 1000
 n5000 = oro // 5000
 
-print(n100, n1000, n5000)
+# print(n100, n1000, n5000)
 
 # -> tirar probabilidad de intercambio de 100 mo
 cambio100 = dado(1,100) <= n100*10
@@ -528,13 +528,13 @@ cambio1000 = dado(1,100) <= n1000*10
 # -> tirar probabilidad de intercambio de 5000 mo
 cambio5000 = dado(1,100) <= n5000*10
 
-print(cambio100, cambio1000, cambio5000)
+# print(cambio100, cambio1000, cambio5000)
 
 
 # COMPROBACION SI ES DESCONTABLE si no es descontable no se descuenta nada y se tiran los intercambios
 descontable = False
 d = oro
-tesoro = "Tesoro compuesto de:\n"
+tesoro = "Objetos del tesoro:\n"
 if cambio5000 or cambio1000 or cambio100:
     if cambio5000:
         d -= 5000
@@ -560,16 +560,20 @@ if cambio5000 or cambio1000 or cambio100:
         else:
             tesoro += joyeriaMenor() + "\n"
             print("joyaMenor")
-
+print(d)
 if d >= 0:
     descontable = True
-if descontable: print("descontable")
-else: print("no descontable")
-if descontable :
+
+if descontable:
+    print("descontable")
     oro = d
-print(oro)
+else:
+    print("no descontable")
+
+
 # tesoro += "Y monedas por valor de " + str(oro) + "mo."
-tesoro += "Monedas: " + monedasRandom(oro)
+print("Monedas: ")
+monedasRandom(oro)
 print(tesoro)
 print("\n presiona intro para terminar")
 z = input()
