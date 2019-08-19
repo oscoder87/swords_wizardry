@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<objetos>
+	<pociones>
+		<pocion peso="3" enana="no">Control animal</pocion>
+		<pocion peso="3">Clariaudiencia</pocion>
+		<pocion peso="3">Clarividencia</pocion>
+		<pocion peso="3" enana="no">Disminucion</pocion>
+		<pocion peso="3">Controlar Dragones</pocion>
+		<pocion peso="3">Volver Etéreo</pocion>
+		<pocion peso="3" elfica="no">Resistencia al Fuego</pocion>
+		<pocion peso="3">Volar</pocion>
+		<pocion peso="1">Brebaje Pegajoso</pocion>
+		<pocion peso="2">Forma Gaseosa</pocion>
+		<pocion peso="3">Fuerza Gigantesca</pocion>
+		<pocion peso="3">Crecimiento</pocion>
+		<pocion peso="3" elfica="no">Heroísmo</pocion>
+		<pocion peso="3">Invisibilidad</pocion>
+		<pocion peso="3">Invulnerabilidad</pocion>
+		<pocion peso="3">Levitación</pocion>
+		<pocion peso="3" enana="no">Controlar Plantas</pocion>
+		<pocion peso="7">Veneno</pocion>
+		<pocion peso="3">Resbalar</pocion>
+		<pocion peso="3" elfica="no">Encontrar Tesoro</pocion>
+		<pocion peso="3">Controlar Muertos Vivientes</pocion>
+		<pocion peso="11">Curación Incrementada</pocion>
+		<pocion peso="25">Curación</pocion>
+	</pociones>
+</objetos>
