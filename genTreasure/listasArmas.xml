@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<armeria>
+	<armas>
+		<arma peso="2" cortante="si">Hacha de batalla</arma>
+		<arma peso="1" cortante="si" arrojadiza="si">Hacha de mano</arma>
+		<arma peso="2" cortante="si" arrojadiza="si">Daga</arma>
+		<arma peso="1" contundente="si">Honda</arma>
+		<arma peso="1" contundente="si">Martillo de guerra</arma>
+		<arma peso="1" punzante="si">Lanza de caballería</arma>
+		<arma peso="3" contundente="si">Maza pesada</arma>
+		<arma peso="1" contundente="si">Maza ligera</arma>
+		<arma peso="1" subtipo="punzante" arrojadiza="si">Lanza</arma>
+		<arma peso="1" contundente="si">Bastón</arma>
+		<arma peso="1" cortante="si" espada="si">Espada corta</arma>
+		<arma peso="1" cortante="si" espada="si">Espada de doble puño</arma>
+		<arma peso="1" cortante="si" espada="si">Espada larga</arma>
+	</armas>
+	<armaduras>
+		<armadura peso="1">Cota de malla</armadura>
+		<armadura peso="1">Armadura de cuero</armadura>
+		<armadura peso="1">Armadura de placas</armadura>
+		<armadura peso="1">Cota de anillo</armadura>
+	</armaduras>
+	<menores>
+		<prop peso="5">+1 adicional al daño</prop>
+		<prop peso="1">Arroja luz, 10 pies de radio</prop>
+		<prop peso="1">Arroja luz, 30 pies de radio</prop>
+		<prop peso="1">Inflinge +4 puntos de daño adicionales contra un tipo particular de enemigo (como muertos vivientes, dragones, demonios, gigantes, etc.)</prop>
+	</menores>
+	<unicas>
+		<espada int="no">Flamigera</espada>
+		<espada int="no">Danzarina</espada>
+		<espada int="no">detecta trampas</espada>
+		<espada int="no">ver invisible</espada>
+		<espada int="no">detecta magia</espada>
+		<espada int="no">de clariaudiencia</espada>
+		<espada int="no">permite volar</espada>
+		<espada int="no">permite levitar</espada>
+		<espada int="no">sanar 1d6 1/dia</espada>
+		<espada int="no">habilidade de enano</espada>
+		<espada int="no">habilidades de elfo</espada>
+		<espada int="no">confundir 1/dia</espada>
+		<espada int="no">desvio de proyectiles</espada>
+		<espada int="no">alerta durante el sueño</espada>
+		<espada int="no">detecta un tipo de monstruo</espada>
+		<espada int="no">detecta alineamiento 20 pies</espada>
+		<espada int="si">cambio de apariencia
+       telepatia con el portador</espada>
+		<espada int="si">detectar maldicion 50%
+       telepatia con 10 pies alrededor</espada>
+		<espada int="si">atravesar roca hasta 20 pies 2/dia
+       telepatia con el portador y hablar</espada>
+		<espada int="si">niveles inmunes
+       telepatia con 10 pies alrededor y hablar</espada>
+	</unicas>
+	<armaexcepcional>
+		<excep subtipo="contundente" nivel="1">que destruye muertos vivientes</excep>
+		<excep subtipo="arrojadiza" nivel="1">que vuelve a la mano</excep>
+		<excep nivel="1">ataque extra</excep>
+		<excep nivel="1">+2 contra tipo de enemigo</excep>
+		<excep nivel="1">+4 contra tipo de enemigo</excep>
+		<excep nivel="4">--</excep>
+		<excep nivel="5">--</excep>
+		<excep nivel="1d4-1">flamigera</excep>
+		<excep nivel="1d4+1">helada</excep>
+		<excep nivel="1">danzarina</excep>
+		<excep nivel="1d3">inteligente</excep>
+	</armaexcepcional>
+	<armaduraexcepcional>
+		<excep tipo="armadura" nivel="4"></excep>
+		<excep tipo="escudo" nivel="4"></excep>
+		<excep tipo="armadura" nivel="5"></excep>
+		<excep tipo="escudo" nivel="5"></excep>
+		<excep tipo="armadura">desvío de flechas, penaliza con -2</excep>
+		<excep tipo="armadura">Demoníaca</excep>
+		<excep tipo="armadura" nombre="Armadura Etérea de placas" nivel="3">Etérea, 50 usos de transformación etérea</excep>
+		<excep tipo="armadura" nivel="1">ardiente envuelta en llamas 1d3 daño a atacantes cc</excep>
+	</armaduraexcepcional>
+</armeria>
