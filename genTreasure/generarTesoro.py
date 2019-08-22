@@ -42,34 +42,20 @@
 from random import randint, randrange
 from math import floor
 import xml.etree.ElementTree as ET
-
+     
 def dado(nDados, tamDado, extra=0):
     s = extra
     for i in range(nDados):
         s += randrange(1,tamDado+1)
     return s
 
-def monedasRandom(m,limO = 10, limP = 30):
-    x = 10 #elemento aleatorio
-
-    if limO + limP >= 100:
-        limP = 100 - limO - 1
+def monedasRandom(m,limO = 90, limP = 90):
     
-    lo = dado(1,100-x) + x # valor aleatorio entre x+1 y 100
-    # limO ASEGURA una cantidad de mo que se queda
-    fo = max(limO,lo)
-    
-    repartir = int(m * (1 - fo/100)) #oro a repartir en monedas de cobre y plata
-    o = m - repartir
-    
-    lp = dado(1,100-x) + x # valor aleatorio entre x+1 y 100
-    fp = max(lp,limP) # limP ASEGURA una cantidad de mp
-                
-    p = int(repartir * fp / 100 * 10)
-
-    repartir *= (1 - fp/100)   
-    c = int(repartir * 100)
-    
+    o = int(m * limO/100)
+    r = m - o
+    p = int(r*10*limP/100)
+    r = r*10 - p
+    c = int(r*10)
     return str(c) + " monedas de cobre\n" + str(p) + " monedas de plata\n" + str(o) + " monedas de oro."
     
 def joyeriaMenor():
@@ -106,7 +92,7 @@ def joyeriaMayor():
         v = dado(1,100) * 120
     elif j == 4:
         v = dado(1,100) * 200
-    return "Joya por valor de " + str(v) + "mo"
+    return "\nJoya por valor de " + str(v) + " mo"
 
 
 
@@ -114,19 +100,16 @@ def oMagMenor():
     j = dado(1,4)
     r = ""
     if j == 1:
-        r = pocion()
-        
-    elif j >= 2:
+        r = pocion() + "\n"
+    elif j == 2:
         v = dado(1,6)
         r = tablaPergaminos(v)
     elif j == 3:
         v = dado(1,6)
-        for i in range(v): 
-            r += "\n" + armamento()
+        r = tablaArmas(v)
     elif j == 4:
         v = dado(1,20)
-        for i in range(v): 
-            r += "\n" + oMagRemarcable()
+        r += remarcables(v) + "\n"
             
     return r
 
@@ -135,19 +118,17 @@ def oMagMedio():
     r = ""
     if j == 1:
         for i in range(3):
-            r += "\n" + pocion()
+            r += pocion() +"\n"
         
-    elif j >= 2:
+    elif j == 2:
         v = dado(1,6,6)
         r += tablaPergaminos(v)
     elif j == 3:
         v = dado(1,6,6)
-        for i in range(v): 
-            r += "\n" + armamento()
+        r = tablaArmas(v)
     elif j == 4:
         v = dado(1,20,20)
-        for i in range(v): 
-            r += "\n" + oMagRemarcable()
+        r += remarcables(v) + "\n"
     return r
     
 def oMagMayor():
@@ -155,18 +136,17 @@ def oMagMayor():
     r = ""
     if j == 1:
         for i in range(6):
-            r += "\n" + pocion()
-    elif j >= 2:
+            r += pocion() + "\n"
+        
+    elif j == 2:
         v = dado(1,6,12)
         r += tablaPergaminos(v)
     elif j == 3:
         v = dado(1,6,12)
-        for i in range(v): 
-            r += "\n" + armamento()
+        r = tablaArmas(v)
     elif j == 4:
         v = dado(1,20,40)
-        for i in range(v): 
-            r += "\n" + oMagRemarcable()
+        r += remarcables(v) + "\n"
     return r
 
 # ------------ CLASE PERGAMINO ------------
@@ -214,7 +194,7 @@ class Pergamino:
             lista.append(it)
         # contar y sacar un numero
         return lista[dado(1,len(lista)-1)].text # devolver el resultado
-        
+    
     def __init__(self, nivel = 1 , tipo = "", maldicion = False):
         '''
         permite hacer llamadas
@@ -233,7 +213,7 @@ class Pergamino:
         if not self.maldito and self.tipo == "":
             self.tipo = Pergamino.tipoRandom()
         #
-            
+        
         if not self.maldito and self.tipo == "proteccion":
             if self.nivel == 2:
                 self.nombre = "mayor"
@@ -246,8 +226,7 @@ class Pergamino:
         elif self.tipo == "clerigo":
             self.nombre = "clerical de "
             self.nombre += self.seleccionHechizo(self.tipo,self.nivel)
-        #
-        #
+        
     
     def __str__(self):
         if not self.maldito:
@@ -256,7 +235,7 @@ class Pergamino:
             return "Pergamino " + self.nombre
     
     # fin de la CLASE Pergamino
-# ----------------------------------------------------
+# -------- CLASE EQUIPO ------------------------------
 class Equipo:
     tipo = ""
     nombre = ""
@@ -267,16 +246,18 @@ class Equipo:
     efectos = ""
     cantidad = 1
     
-    def arma():
+    def arma(subtipo = ""):
         arbol = ET.parse("listasArmas.xml")
         raiz = arbol.getroot()
-        pa = "./armas/arma"
+        pa = ".//armas/arma"
+        if subtipo != "":
+            pa += "/[@" + subtipo + "]"
         l = raiz.findall(pa)
         ar = ["--"]
         for i in l:
             for x in range( int(i.attrib["peso"]) ):
                 ar.append(i.text)
-        return ar[ dado(1,len(ar)-1) ]
+        return ar[ dado(1,len(ar) - 1) ]
     
     def armadura(escudo = False): #aleatorio segun S&W
         arbol = ET.parse("listasArmas.xml")
@@ -329,6 +310,7 @@ class Equipo:
     
     def maldicion(self):
         mal = dado(1,8)
+        self.efectos += "\nMALDITA"
         if mal <= 2:
             self.nivel = -1
         elif mal in [3,4]:
@@ -336,11 +318,11 @@ class Equipo:
         elif mal == 5:
             self.nivel = -3
         elif mal == 6:
-            self.efectos += "\nMALDITA: atraccion de proyectiles +1"
+            self.efectos += ": atraccion de proyectiles +1"
         elif mal == 7:
-            self.efectos += "\nMALDITA: hace huir del combate"
+            self.efectos += ": hace huir del combate"
         elif mal == 8:
-            self.efectos += "\nMALDITA: hace lanzarse al combate"
+            self.efectos += ": hace lanzarse al combate"
     # fin maldicion
     
     def __init__(self, tipo, magico, nivel=0, maldicion = False, efecto = False):
@@ -381,6 +363,7 @@ class Equipo:
         elif self.nombre in ["Espada corta", "Espada a 2 manos","Espada larga"]:
             unica = dado(1,100) <= 25
             if unica:
+                self.magico = True
                 tips = raiz.findall("./unicas/espada")
                 elegida = tips[dado(1,len(tips)-1)]
                 self.efectos += "\n\tUNICA: " + elegida.text
@@ -389,6 +372,8 @@ class Equipo:
         
         if not self.maldito and self.tipo == "armas" and efecto:
             self.efectoMagicoMenor()
+        if self.magico:
+            self.efectos += " MAGICO"
         #NO CONTEMPLA LAS EXCEPCIONALES
         #fin INIT
         
@@ -406,6 +391,40 @@ class Equipo:
         return r
     # fin STR
     # FIN class Equipo
+# -----------------------------------------------
+class OMagico:
+    nombre = ""
+    def __init__(self, clase = "", poder = ""):
+        #se construye el xpath
+        if clase != "variados":
+            if clase == "varitas":
+                self.nombre = "Varita "
+            elif clase == "anillos":
+                self.nombre = "Anillo de "
+            elif clase == "bastones":
+                self.nombre = "Bastón de "
+        ar = ET.parse("listasObjetos.xml")
+        raiz = ar.getroot()
+        pa = ".//magicos"
+        li = ["--"]
+        if clase != "":
+            pa += "/" + clase
+            if poder != "" :
+                pa += "/" + poder
+        clase[:-1]
+        if pa == "":
+            #REVISAR PARA CUALQUIER TIPO
+            pa = ".//obj"
+            self.nombre = "sale cualquiera"
+        else:
+            elem = raiz.findall(pa+"/obj")
+            for i in elem:
+                li.append(i.text)
+            d = dado(1,len(li)-1)
+            self.nombre += li[d]
+        
+    def __str__(self):
+        return self.nombre
 # ----------------------------------------------------
 def pocion(elf = True, en = True):
     #1d100 y lectura
@@ -435,8 +454,13 @@ def pocion(elf = True, en = True):
         return "Poción de " + pc[r].text + " de " + str(dado(1,6,6)) + " turnos"
     else: 
         return "Poción de " + pc[r].text
-# ----------------------------------------------------------------------------------
-def tablaPergaminos(num): # Generacion segun la tabla de s&w
+
+# ---- TABLAS SEGUN S&w ----------------------------------------
+def tablaPergaminos(num):
+    #
+    # Según tablas S&W
+    #
+    
     r = "Pergaminos:\n"
     for x in range(num):
         n = dado(1,18)
@@ -489,12 +513,21 @@ def tablaPergaminos(num): # Generacion segun la tabla de s&w
     return r #fin tabla pergaminos
     
 # ---------------------------------------------------------------------------------------------------
-#ARMAMENTO - DECIDIR QUE PASA CON ESTA PARTE
+#ARMAMENTO - CHUSCO, CORREGIR
 def armaExcepcional():
-    ae = dado(1,12)
+    #
+    # Según tablas S&W
+    #
+    
+##    r = ""
+##    arbol = ET.parse("listasArmas.xml")
+##    raiz = arbol.getroot()
+    #ae = dado(1,12)
+    #l = raiz.findall(".//armaexcepcional/excep")
+    
     aes = ["--",
-           "contundente +1, destruye muertos vivientes",
-           "arrojadiza +1, que vuelve a la mano",
+           "+1, destruye muertos vivientes",
+           "+1, que vuelve a la mano",
            "+1, ataque extra 1/dia",
            "+1, +2 contra tipo de enemigo",
            "+1, +4 contra tipo de enemigo",
@@ -506,71 +539,125 @@ def armaExcepcional():
            "danzarina" ,
            "inteligente +" + str(dado(1,3)) + " con conjuro 1/dia"
            ]
+    ae = dado(1,len(aes)-1)
     
-    return armaCC() + " " + aes[ae]
+    if ae == 1:
+        r = Equipo.arma("contundente")
+    elif ae == 2:
+        r = Equipo.arma("arrojadiza")
+    else:
+        r = Equipo.arma()
+    r += " " + aes[ae] + "\n   EXCEPCIONAL"
+    return r
 
 def armaduraExcepcional():
-    aE = dado(1,8)
+    #
+    # Según tablas S&W
+    #
+    
+##    r = ""
+##    arbol = ET.parse("listasArmas.xml")
+##    raiz = arbol.getroot()
+##    #ae = dado(1,12)
+##    l = raiz.findall(".//armaduraexcepcional/excep")
+##    li=["--"]
+##    for i in l:
+##        li.append(i)
+##    eleg = li[dado(1,len(li)-1)]
+##    
+##    e = Equipo( eleg.attrib["tipo"], True, int( eleg.attrib["nivel"] ) )
+##    e.efecto = eleg.text
+##    e.efecto += "\n EXCEPCIONAL"
+##    return str(e)
+##    
     aEs = ["--",
-        armaduraMagica() + " +4",
+        Equipo.armadura()+ " +4",
         "Escudo +4",
-        armaduraMagica() + " +5",
+        Equipo.armadura() + " +5",
         "Escudo +5",
         "Armadura de Desvío de Flechas",
         "Armadura Demoniaca",
         "Armadura Etérea",
         "Armadura Ardiente"
     ]
-    return aEs[aE]
+    return aEs[dado(1,len(aEs)-1)]
 
-def tablaArmas(num):
-    d = dado(1,18)
-    if d == 1:
-        d2 = dado(1,2)
-        if d2 == 1:
-            return "Escudo maldito " + maldicionArmamento()
+def tablaArmas(num = 1):
+    #
+    # Según tablas S&W
+    #
+    
+    # Equipo(tipo, magico, nivel=0,maldicion=False,efecto=False)
+    r = ""
+    for i in range(num):
+        d = dado(1,18)
+        if d == 1:
+            r += str( Equipo("armaduras", False, maldicion=True) ) + "\n"
+        elif d == 2:
+            r += str( Equipo("proyectil",True, nivel = 1) ) + "\n"
+        elif d == 3:
+            r +=  str( Equipo("escudo", True, 1 ) ) + "\n"
+        elif d == 4:
+            r +=  str( Equipo("armas", True, 1) ) + "\n"
+        elif d == 5:
+            r +=  str( Equipo("armadura", True, 1) ) + "\n"
+        elif d == 6:
+            r +=  str( Equipo("armas",False,maldicion = True ) ) + "\n"
+        elif d == 7:
+            r +=  str( Equipo("proyectil",True,2) ) + "\n"
+        elif d == 8:
+            r +=  str( Equipo("escudo",True,2) ) + "\n"
+        elif d in [9,11]:
+            r +=  str( Equipo("armas", True, 2) ) + "\n"
+        elif d == 10:
+            r +=  str( Equipo("armadura", True,2) ) + "\n"
+        elif d == 12:
+            r +=  str( Equipo("armas",True, 1, efecto=True)) + "\n"
+        elif d == 13:
+            r +=  str( Equipo("proyectiles",True, 3)) + "\n"
+        elif d == 14:
+            r +=  str( Equipo("armas",True,3)) + "\n"
+        elif d == 15:
+            r +=  str( Equipo("escudo",True,3)) + "\n"
+        elif d == 16:
+            r +=  str( Equipo("armadura",True,3)) + "\n"
+        elif d == 17:
+            r +=  armaExcepcional() + "\n"
+        elif d == 18:
+            r +=  armaduraExcepcional() + "\n"
         else:
-            return armaduraMagica() + " maldita " + maldicionArmamento()
-    elif d == 2:
-        return proyectiles() + " +1" 
-    elif d == 3:
-        return "Escudo +1"
-    elif d == 4:
-        return armaCC() + " +1"
-    elif d == 5:
-        return armaduraMagica() + " +1"
-    elif d == 6:
-        return armaCC() + " maldita " + maldicionArmamento()
-    elif d == 7:
-        return proyectiles() + " +2"
-    elif d == 8:
-        return "Escudo +2"
-    elif d in [9,11]:
-        return armaCC() + " +2"
-    elif d == 10:
-        return armaduraMagica() + " +2"
-    elif d == 12:
-        return armaCC() + " +1 con " + habilidadesCC()
-    elif d == 13:
-        return proyectiles() + " +3"
-    elif d == 14:
-        return armaCC() + " +3"
-    elif d == 15:
-        return "Escudo +3"
-    elif d == 16:
-        return armaduraMagica() + " +3"
-    elif d == 17:
-        return armaExcepcional()
-    elif d == 18:
-        return armaduraExcepcional()
-    else:
-        return "otro arma o armadura"
+            #r +=  armaduraExcepcional() + "\n"
+            pass
+    return r
 
-def oMagRemarcable():
-    ## tipo en 1d60
-    return "objetoMagicoRemarcable"
+def remarcables(num):
+    #
+    # Según tablas S&W
+    #
+        
+    r = "Objetos Magicos remarcables:"
+    for i in range(num):
+        d = dado(1,60)
+        if d <= 3:
+            r += "\n\t- " + str(OMagico("varitas","menor"))
+        elif d <= 6:
+            r += "\n\t- " + str(OMagico("anillos", "menor"))
+        elif d <= 24:
+            r += "\n\t- " + str(OMagico("variados","menor"))
+        elif d <= 27:
+            r += "\n\t- " + str(OMagico("varitas", "mayor"))
+        elif d <= 30:
+            r += "\n\t- " + str(OMagico("anillos","mayor"))
+        elif d <= 44:
+            r += "\n\t- " + str(OMagico("variados", "medio"))
+        elif d == 45:
+            r += "\n\t- " + str(OMagico("bastones"))
+        else:
+            r += "\n\t- " + str(OMagico("variados","mayor"))
+    return r
 
 # -----------------------------------------------
+
 def mostrarMenu():
     print(
 '''\n-------------- MENU --------------
@@ -599,22 +686,23 @@ def tesoroArmeria(mo):
             mal = dado(1,10) == 1
             ni = dado(1,3)
             ef = i%4 == 0
-            t += Equipo("",bool(i%2),ni,mal,ef) + "\n"
+            t += str(Equipo("",bool(i%2),ni,mal,ef)) + "\n"
     elif mo < MEDLIM:
         for i in range(dado(1,6,6)):
             mal = dado(1,10) == 1
             ni = dado(1,3)
             ef = i%4 == 0
-            t += Equipo("",bool(i%2),ni,mal,ef) + "\n"
+            t += str(Equipo("",bool(i%2),ni,mal,ef)) + "\n"
     else:
         for i in range(dado(1,6,12)):
             mal = dado(1,10) == 1
             ni = dado(1,3)
             ef = i%4 == 0
-            t += Equipo("",bool(i%2),ni,mal,ef) + "\n"
+            t += str(Equipo("",bool(i%2),ni,mal,ef)) + "\n"
     return t
 
 def tesoroBiblioteca(mo):
+    #Pergamino(nivel = 1 , tipo = "", maldicion = False)
     if mo < PEQLIM:
         return tablaPergaminos( dado(1,6) )
     elif mo < MEDLIM:
@@ -624,29 +712,93 @@ def tesoroBiblioteca(mo):
 
 def tesoroAlquimista(mo):
     t = ""
+    #tablaArmas()
     if mo < PEQLIM:
         t += pocion() + "\n"
     elif mo < MEDLIM:
         for i in range(3):
             t += pocion() + "\n"
+            t += str( Pergamino()) + "\n"
+            t += str( Pergamino()) + "\n"
     else:
         for i in range(6):
             t += pocion() + "\n"
+            t += str( Pergamino(dado(1,3) )) + "\n"
+            t += str( Pergamino(dado(1,3,2))) + "\n"
+            t += str( Pergamino(dado(1,3) )) + "\n"
     return t
 
-def tesoroMago(mo):
-    pass
+def tesoroMagico(mo):
+    #
+    # Necesario decidir el tipo de reparto.
+    # muchos o pocos pergaminos, algun arma o armadura
+    # u otros artefactos
+    #
+    t = ""
+    if mo < PEQLIM:
+        t += pocion() + "\n"
+    elif mo < MEDLIM:
+        t += str( Pergamino()) + "\n"
+    else:
+        for i in range(6):
+            pass
+    return t
 
 def tesoroClerigo(mo):
-    pass
+    r = ""
+    
+    objsReligiosos = ["--", "cuenco de cerámica", "caliz",
+                      "cetro ritual", "codex de ritos",
+                      "pebetero", "estatuilla", "vestimenta ritual",
+                      "máscara", "icono", "simbolo sagrado"]
+    suministrosClerigo = ["vela", "oz. de incienso", "candil",
+                             "carga de aceite", "Vial de agua bendita",
+                             "estatuilla", "anfora", "devocionario",
+                             "calendario", "tapiz", "oz. de tinta"]
+    # Selecciono varios elementos al azar.
+    if mo < PEQLIM:
+        # pergaminos de protección
+        for i in range(dado(1,3)):
+            r += str(Pergamino(dado(1,2), "proteccion")) + "\n"
+        # pergaminos de clerigo
+        for i in range(dado(1,3)):
+            r += str(Pergamino(dado(1,3), "clerigo")) + "\n"
+        # objetos religiosos variados
+        
+    elif mo < MEDLIM:
+        # pergaminos de protección
+        for i in range(dado(1,6,2)):
+            r += str(Pergamino(dado(1,3), "proteccion")) + "\n"
+        # pergaminos de clerigo
+        for i in range(dado(1,6,2)):
+            r += str(Pergamino(dado(1,3,2), "clerigo")) + "\n"
+        # objetos religiosos variados
+        
+    else:
+        # pergaminos de protección
+        for i in range(dado(1,5,5)):
+            r += str(Pergamino(dado(1,3), "proteccion")) + "\n"
+        # pergaminos de clerigo
+        for i in range(dado(1,5,5)):
+            r += str(Pergamino(dado(1,5,2), "clerigo")) + "\n"
+        # objetos religiosos variados
+    # generar cantidad y elegir tipo
+    return r
+
+def tesoroCompuesto(mo):
+    return "NO IMPLEMENTADO"
 
 def tesoroSnw(mo):
-    #Tamano del tesoro seleccionado:
+    #
+    # Según método S&W
+    #
+    
+    # Tamano del tesoro seleccionado:
     prob100 = 10  * int(mo/100)
     prob1000 = 10 * int(mo/1000)
     prob5000 = 10 * int(mo/5000)
 
-    print(prob100,prob1000,prob5000)
+    #print(prob100,prob1000,prob5000)
     
     cambio100 = dado(1,100) <= prob100
     cambio1000 = dado(1,100) <= prob1000
@@ -654,18 +806,20 @@ def tesoroSnw(mo):
     
     res = mo
     if cambio100:
-        print("cambio100")
+        #print("cambio100")
         res -= 100
     if cambio1000:
-        print("cambio1000")
+        #print("cambio1000")
         res -= 1000
     if cambio5000:
-        print("cambio5000")
+        #print("cambio5000")
         res -= 5000
-        
+    
     if res <= 0 :
+        print("Albricias tesoro enorme,\ncontiene tanto los objetos como el total del dinero.")
         res = mo
     t = ""
+    
     if cambio100 and dado(1,20) < 20:
         t += joyeriaMenor() + "\n"
     elif cambio100:
@@ -681,10 +835,18 @@ def tesoroSnw(mo):
     elif cambio5000:
         t += oMagMayor()  + "\n"
 
-    t += monedasRandom(res)
+    t += monedasRandom(res,98,98)
     return t
+
+def ponTamano(mo):
+    if mo < PEQLIM:
+        return "pequeno"
+    elif mo < MEDLIM:
+        return "mediano"
+    else:
+        return "grande"
     
-# lectura del numero de XP de la mazmorra zona etc
+# COMIENZO MAIN
 print("|-------------------------------------------------------|")
 print("|                                                       |")
 print("|     GENERACIÓN DE TESORO para SWORDS AND WIZARDRY     |")
@@ -695,8 +857,8 @@ print("|-------------------------------------------------------|")
 # POCIONES OK
 
 oro = 0
-tamano = "pequeno"
 tesoro = ""
+tamano = "pequeno"
 while True:
     opcion = ""
     # print(pocion())
@@ -704,7 +866,7 @@ while True:
     #for i in range(15):
     #    p = Equipo("armas",False, efecto=True)
     #    print(p)
-
+    
     # mostrar menu
     mostrarMenu()
 
@@ -719,13 +881,15 @@ while True:
             XP = 0
         # Se multiplica por 1d3+1
         oro = XP * dado(1,3,1)
+        tamano = ponTamano(oro)
+        
     elif opcion == "1": # Introducir valor en monedas de oro
         try:
             oro = int( input("Introducir valor en Oro del tesoro: ") )
-            
+            tamano = ponTamano(oro)
         except (TypeError,ValueError):
             print("introduce un valor entero por favor")
-            XP = 0
+            XP = 0        
     elif opcion == "2": # Tesoro según S&W
         tesoro += tesoroSnw(oro)
     elif opcion == "3": # generar tesoro tipo armería
@@ -735,11 +899,11 @@ while True:
     elif opcion == "5": # Alquimista
         tesoro += tesoroAlquimista(oro)
     elif opcion == "6": # Magico
-        print("NO IMPLEMENTADO")
+        tesoro += tesoroMagico(oro)
     elif opcion == "7": # Clerigo
-        print("NO IMPLEMENTADO")
+        tesoro += tesoroClerigo(oro)
     elif opcion == "c": # COMPUESTO
-        print("NO IMPLEMENTADO")
+        tesoro += tesoroCompuesto(oro)
     elif opcion == "s": # guardar a un fichero de texto
         fname = "Tesoro generado.txt"
         con = 0
@@ -764,7 +928,7 @@ while True:
     else:
         print("Introduce una opcion válida")
     if tesoro != "":
-        print("---\nTESORO GENERADO:\n" + tesoro)
-    
+        print("---\nTESORO GENERADO:\n\n" + tesoro)
+    print(tesoroClerigo(1000))
     
     #END WHILE
