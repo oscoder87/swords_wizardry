@@ -408,7 +408,7 @@ class OMagico:
         pa = ".//magicos"
         li = ["--"]
         if clase != "":
-            pa += "/" + clase
+            pa += "//" + clase
             if poder != "" :
                 pa += "/" + poder
         clase[:-1]
@@ -420,8 +420,14 @@ class OMagico:
             elem = raiz.findall(pa+"/obj")
             for i in elem:
                 li.append(i.text)
+            
             d = dado(1,len(li)-1)
-            self.nombre += li[d]
+            if li[d] != "Objeto Maldito":
+                self.nombre += li[d]
+            else:
+                malds = ["--"]
+                malds.appendall( raiz.findall(".//maldito") )
+                self.nombre += malds[ dado(1,len(malds) - 1)].text
         
     def __str__(self):
         return self.nombre
@@ -663,15 +669,21 @@ def mostrarMenu():
 '''\n-------------- MENU --------------
 0. Definir tamaño del tesoro en XP
 1. Definir valor del tesoro en mo
+         ----
 2. Tesoro S & W (según el manual)
+         ----
 3. Tesoro de armería
 4. Tesoro de biblioteca
 5. Tesoro de alquimista
 6. Tesoro mágico
 7. Tesoro de clérigo
+         ----
+8. Multiples intercambios
 c. Tesoro compuesto
+         ----
 r. Reset
 s. Guardar en un archivo
+         ----
 q. SALIR
 ''')
 # ----- TIPOS DE TESORO -----
@@ -716,16 +728,16 @@ def tesoroAlquimista(mo):
     if mo < PEQLIM:
         t += pocion() + "\n"
     elif mo < MEDLIM:
-        for i in range(3):
-            t += pocion() + "\n"
-            t += str( Pergamino()) + "\n"
-            t += str( Pergamino()) + "\n"
-    else:
         for i in range(6):
             t += pocion() + "\n"
-            t += str( Pergamino(dado(1,3) )) + "\n"
-            t += str( Pergamino(dado(1,3,2))) + "\n"
-            t += str( Pergamino(dado(1,3) )) + "\n"
+        t += str( Pergamino( dado(1,3) )) + "\n"
+        t += str( Pergamino( dado(1,3,2) )) + "\n"
+    else:
+        for i in range(12):
+            t += pocion() + "\n"
+        t += str( Pergamino( dado(1,3) )) + "\n"
+        t += str( Pergamino( dado(1,3,2) )) + "\n"
+        t += str( Pergamino( dado(1,3,5) )) + "\n"
     return t
 
 def tesoroMagico(mo):
@@ -737,12 +749,13 @@ def tesoroMagico(mo):
     t = ""
     if mo < PEQLIM:
         t += pocion() + "\n"
+        
     elif mo < MEDLIM:
         t += str( Pergamino()) + "\n"
     else:
         for i in range(6):
             pass
-    return t
+    return t + " -- NO IMPLEMENTADO --"
 
 def tesoroClerigo(mo):
     r = ""
@@ -838,6 +851,50 @@ def tesoroSnw(mo):
     t += monedasRandom(res,98,98)
     return t
 
+def multiCambio(mo):
+    #
+    # Interpretación del metodo de intercambios encontrada
+    # en https://www.d20swsrd.com/
+    #
+    t = ""
+    c1 = 0
+    c2 = 0
+    c3 = 0
+    cambios100 = int(mo/100)
+    cambios1000 = int(mo/1000)
+    cambios5000 = int(mo/5000)
+
+    for i in range(cambios100):
+        if dado(1,10) == 10:
+            c1 += 1
+            if dado(1,20) == 20:
+                t+= oMagMenor() + "\n"
+            else:
+                t += joyeriaMenor() + "\n"
+    for i in range(cambios1000):
+        if dado(1,10) == 10:
+            c2 += 1
+            if dado(1,20) == 20:
+                t+= oMagMedio() + "\n"
+            else:
+                t += joyeriaMedia() + "\n"
+    for i in range(cambios5000):
+        if dado(1,10) == 10:
+            c3 += 1
+            if dado(1,20) == 20:
+                t+= oMagMayor() + "\n"
+            else:
+                t += joyeriaMayor() + "\n"
+                
+    restante = mo - c1*100 - c2*1000 - c3*5000
+    
+    if restante <= 0:
+        t += "Tesoro ENORME\n" + monedasRandom(mo,98,98)
+    else:
+        t += monedasRandom(restante,98,98)
+    
+    return t
+
 def ponTamano(mo):
     if mo < PEQLIM:
         return "pequeno"
@@ -845,6 +902,8 @@ def ponTamano(mo):
         return "mediano"
     else:
         return "grande"
+
+
     
 # COMIENZO MAIN
 print("|-------------------------------------------------------|")
@@ -902,6 +961,8 @@ while True:
         tesoro += tesoroMagico(oro)
     elif opcion == "7": # Clerigo
         tesoro += tesoroClerigo(oro)
+    elif opcion == "8": # interpretación SRD https://www.d20swsrd.com/
+        tesoro += multiCambio(oro)
     elif opcion == "c": # COMPUESTO
         tesoro += tesoroCompuesto(oro)
     elif opcion == "s": # guardar a un fichero de texto
@@ -929,6 +990,5 @@ while True:
         print("Introduce una opcion válida")
     if tesoro != "":
         print("---\nTESORO GENERADO:\n\n" + tesoro)
-    print(tesoroClerigo(1000))
     
     #END WHILE
