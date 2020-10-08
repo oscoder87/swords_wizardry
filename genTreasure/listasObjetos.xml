@@ -25,4 +25,139 @@
 		<pocion peso="11">Curación Incrementada</pocion>
 		<pocion peso="25">Curación</pocion>
 	</pociones>
+	<magicos>
+		<varitas>
+			<menor>
+				<obj peso="2">de conjuro de nivel 1, contiene 10 cargas</obj>
+				<obj peso="2">de conjuro de nivel 2, contiene 5 cargas</obj>
+				<obj peso="2">de conjuro de nivel 3, contiene 2 cargas</obj>
+			</menor>
+			<mayor>
+				<obj peso="1">de conjuro de nivel 3, contiene 10 cargas</obj>
+				<obj peso="1">de conjuro de nivel 4, contiene 10 cargas</obj>
+				<obj peso="1">de Frío</obj>
+				<obj peso="1">Detectora de enemigos</obj>
+				<obj peso="1">Detectora de magia</obj>
+				<obj peso="1">Detectora de metal</obj>
+				<obj peso="1">Detectorade trampas y puertas secretas</obj>
+				<obj peso="1">atemorizante</obj>
+				<obj peso="1">paralizadora</obj>
+				<obj peso="1">polimorfadora</obj>
+			</mayor>
+		</varitas>
+		<anillos>
+			<menor>
+				<obj peso="1">de resistencia al fuego</obj>
+				<obj peso="1">de Invisibilidad</obj>
+				<obj peso="1">de controlar Mamíferos</obj>
+				<obj peso="1">de resistencia al veneno</obj>
+				<obj peso="1">de proteccion +1</obj>
+				<obj peso="1">de proteccion +2</obj>
+			</menor>
+			<mayor>
+				<obj peso="1">de invocar Djinn</obj>
+				<obj peso="1">de controlar humano</obj>
+				<obj peso="1">de Regeneración</obj>
+				<obj peso="1">de Estrellas fugaces</obj>
+				<obj peso="1">de almacen de conjuros de Mago</obj>
+				<obj peso="1">de almacen de conjuros de Clerigo</obj>
+				<obj peso="1">de reflejar conjuros</obj>
+				<obj peso="1">de telequinesis</obj>
+				<obj peso="1">de tres deseos</obj>
+				<obj peso="1">de visión de rayos-x</obj>
+			</mayor>
+		</anillos>
+		<bastones>
+			<obj peso="1">de absorcion</obj>
+			<obj peso="1">de seduccion</obj>
+			<obj peso="1">de mando</obj>
+			<obj peso="1">de curacion</obj>
+			<obj peso="1">de poder</obj>
+			<obj peso="1">de resurreccion</obj>
+			<obj peso="1">de serpenteante</obj>
+			<obj peso="1">de golpe</obj>
+			<obj peso="1">de marchitar</obj>
+			<obj peso="1">de hechiceria</obj>
+		</bastones>
+		<variados>
+			<menor>
+				<obj peso="1">Flecha de la direccion</obj>
+				<obj peso="1">Bolsa de almacenaje</obj>
+				<obj peso="1">Botas elficas</obj>
+				<obj peso="1">Botas de Velocidad o de salto</obj>
+				<obj peso="1">Brazales de defensa, CA 6 o 13</obj>
+				<obj peso="1">Carillon de apertura</obj>
+				<obj peso="1">Capa elfica</obj>
+				<obj peso="1">Capa de proteccion +1</obj>
+				<obj peso="1">Objeto maldito</obj>
+				<obj peso="1">Decantador inagotable de agua</obj>
+				<obj peso="1">Polvo de aparición o de desaparicion</obj>
+				<obj peso="1">Polvo de estornudo y asfixia</obj>
+				<obj peso="1">Guanteletes de nada y escalar</obj>
+				<obj peso="1">Herraduras de velocidad</obj>
+				<obj peso="1">Piedra de la suerte</obj>
+				<obj peso="1">Manual del Ejercicio Beneficioso</obj>
+				<obj peso="1">Flauta de las alcantarillas</obj>
+				<obj peso="1">Cuerda de Escalada</obj>
+				<obj peso="1">Cuerda de Enredar</obj>
+				<obj peso="1">Pala de Excavacion</obj>
+			</menor>
+			<medio>
+				<obj peso="1">Amuleto contra el escrutinio</obj>
+				<obj peso="1">Botas voladoras</obj>
+				<obj peso="1">Brazales de defensa, CA 4 o 15, o CA 2 o 17</obj>
+				<obj peso="1">Alfombra voladora</obj>
+				<obj peso="1">Capa de Desplazamiento</obj>
+				<obj peso="1">Capa de proteccion +2 o +3</obj>
+				<obj peso="1">Baraja de multiples cosas</obj>
+				<obj peso="1">Figurita del perro de onice</obj>
+				<obj peso="1">Guanteletes de fuerza de ogro</obj>
+				<obj peso="1">Yelmo de leer magia y lenguajes</obj>
+				<obj peso="1">Agujero portatil</obj>
+				<obj peso="1">Cuerno de bronce del Valhalla</obj>
+				<obj peso="1">Cuerno de plata del Valhalla</obj>
+				<obj peso="1">Jarra de la alquimia</obj>
+				<obj peso="1">Manual de la rapidez</obj>
+				<obj peso="1">Medallon de PES</obj>
+				<obj peso="1">Espejo del escrutinio mental</obj>
+				<obj peso="1">Tunica del camuflaje</obj>
+				<obj peso="1">Tunica de los ojos</obj>
+				<obj peso="1">Tunica de la hechiceria</obj>
+			</medio>
+			<mayor>
+				<obj peso="1">Amuleto de control demoniaco</obj>
+				<obj peso="1">Matraz de pociones</obj>
+				<obj peso="1">Incensario, tazon, brasero o piedra de controlar elementales</obj>
+				<obj peso="1">Bola de cristal</obj>
+				<obj peso="1">Botella de Ifrit</obj>
+				<obj peso="1">Figurita del León de Oro</obj>
+				<obj peso="1">Guanteletes de Destreza</obj>
+				<obj peso="1">Gema de Visión</obj>
+				<obj peso="1">Faja de Fuerza de Gigante</obj>
+				<obj peso="1">Yelmo de fulgor intenso</obj>
+				<obj peso="1">Yelmo de teletransporte</obj>
+				<obj peso="1">Cuerno Detonante</obj>
+				<obj peso="1">Cuerno de hierro del Valhalla</obj>
+				<obj peso="1">Lentes de Hechizar</obj>
+				<obj peso="1">Codice magico de aumento de nivel de tal clase</obj>
+				<obj peso="1">Manual de los golem</obj>
+				<obj peso="1">Manual de la inteligencia</obj>
+				<obj peso="1">Manual de la sabiduria</obj>
+				<obj peso="1">Collar de esferas flamigeras</obj>
+				<obj peso="1">Escarabeo de locura</obj>
+			</mayor>
+		</variados>
+	</magicos>
+	<malditos>
+		<maldito peso="1">Bolsa devoradora</maldito>
+		<maldito peso="1">Incensario de elementales hostiles</maldito>
+		<maldito peso="1">Capa venenosa</maldito>
+		<maldito peso="1">Bola de cristal de la sugestion</maldito>
+		<maldito peso="1">Botas danzarinas</maldito>
+		<maldito peso="1">Frasco de maldiciones atrapadas</maldito>
+		<maldito peso="1">Cuerno del colapso</maldito>
+		<maldito peso="1">Medallon de proyectar pensamientos</maldito>
+		<maldito peso="1">Espejo de oposicion</maldito>
+		<maldito peso="1">Capa de la estupidez</maldito>
+	</malditos>
 </objetos>
